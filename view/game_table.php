@@ -4,6 +4,8 @@ require_once('../database/model/user.php');
   $user = new UnoUser;
   $user = $_SESSION['user'];
   $roomID = $_SESSION['roomID'];
+  echo ('  <input type="hidden" id="idSession" value="'.$user->id.'">');
+  echo ('  <input type="hidden" id="roomIDSession" value="'.$roomID.'">');
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +40,19 @@ require_once('../database/model/user.php');
 </html>
 
 <script>
+  var socket = new WebSocket('ws://localhost:8080');
+  socket.onopen = function(e){
+    console.log("connected");
+  }
+
+  socket.onmessage = function(e){
+    console.log(e.data);
+  }
+
+  socket.onclose = function(e){
+
+  }
+
 
 </script>
 
