@@ -1,0 +1,79 @@
+ 
+ body{
+    background-image: url("../images/background/uno_background.jpeg");
+ }
+ 
+.top {
+    position: absolute;
+    top: 0px;
+    left: 35%;
+    width: 30%;
+    height: 15%;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.right {
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    width: 30%;
+    height: 15%;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.left {
+    position: absolute;
+    left: 0px;
+    top: 35%;
+    width: 30%;
+    height: 15%;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0px;
+    left: 5%;
+    width: 90%;
+    height: 30%;
+    border: 3px solid #73AD21;
+
+}
+
+.bottom-card-container {
+    text-align:center;
+    display:inline-flex;	
+    position: absolute;
+    bottom: 0px;
+    left: 15%;
+    width: 70%;
+    height: 100%;
+    border: 3px solid #73AD21;
+}
+
+.card{
+    height: 100%-6px;
+    width: 10%;
+    border: 3px solid #73AD21;
+}
+
+.left-button{
+    position: absolute;
+    bottom: 35%;
+    left: 0px;
+    width: 10%;
+    height: 30%;
+    border: 3px solid #73AD21;
+}
+
+.right-button{
+    position: absolute;
+    bottom: 35%;
+    right: 0px;
+    width: 10%;
+    height: 30%;
+    border: 3px solid #73AD21;
+}
