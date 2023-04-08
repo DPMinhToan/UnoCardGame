@@ -13,11 +13,11 @@ class UserController{
         $statement->bindParam(":username", $user->username);
         $statement->bindParam(":password", $user->password);
         $statement->bindParam(":name", $user->name);
-        if($statement->execute()){
-            return true;
-        }else{
-            return false;
-        }
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new UnoUser;
+        $user->object_from_JSON($result);
+        return $user;
     }
 
     function check_user_by_username(UnoUser $user){      
@@ -35,14 +35,33 @@ class UserController{
     function check_user_by_username_password(UnoUser $user){
         $database_object = new Database_Connection();
         $connect = $database_object->connect();
-        $query = "SELECT count(*) FROM User WHERE username = :username AND password = :password";
+        $query = "SELECT * FROM User WHERE username = :username AND password = :password";
         $statement = $connect->prepare($query);
         $statement->bindParam(":username", $user->username);
         $statement->bindParam(":password", $user->password);
     
         $statement->execute();
-        $number_of_row = $statement->fetchColumn();
-        return $number_of_row > 0;
+        if($result = $statement->fetch(PDO::FETCH_ASSOC)){
+            $user = new UnoUser;
+            $user->object_from_JSON($result);
+            return $user;
+        }
+        return null;
+        
+    }
+
+    function get_user_by_id(int $id)
+    {
+        $database_object = new Database_Connection();
+        $connect = $database_object->connect();
+        $query = "SELECT * FROM User WHERE id = :id";
+        $statement = $connect->prepare($query);
+        $statement->bindParam(":id", $id);
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $user = new UnoUser;
+        $user->object_from_JSON($result);
+        return $user;
     }
 }
 ?>
