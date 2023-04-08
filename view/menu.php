@@ -1,4 +1,42 @@
 <?php
+    require_once('../controller/roomController.php');
+    require_once('../database/model/room.php');
+    session_start();
+    $user = $_SESSION["user"];
+    if(isset($_POST['submit'])){      
+        $room = new UnoRoom;       
+        $room->id = $_POST['id'];
+        $roomController = new RoomController;
+        if(!$roomController->check_room($room->id)){
+            echo "<script> alert( 'This room is no longer exist' ); </script>";
+        }else if(!$roomController->check_member($room->id)){
+            echo "<script> alert( 'This room is full' ); </script>";
+        }else{
+            $roomController->join_room($room->id);
+            $_SESSION['roomID'] = $room->id;
+            header("Location: http://localhost:3000/view/game_table.php");
+        }
+    }
+
+    if(isset($_POST['joinroom-submit'])){      
+        $joinroom = new UnoRoom;       
+        $joinroom->id = $_POST['id-joinroom'];
+        $roomController = new RoomController;
+        if($joinroom->id == ""){
+            echo "<script> alert( 'Please enter an ID' ); </script>";
+        }
+        else if(!$roomController->check_room($joinroom->id)){
+            echo "<script> alert( 'This room is not exist' ); </script>";
+        }
+        else if(!$roomController->check_member($joinroom->id)){
+            echo "<script> alert( 'This room is full' ); </script>";
+        }
+        else{
+            $roomController->join_room($joinroom->id);
+            $_SESSION['roomID'] = $joinroom->id;
+            header("Location: http://localhost:3000/view/game_table.php");
+        }
+    }
 ?>
 
 
@@ -43,7 +81,41 @@
             
             <div class="popup-body">
                 <table>            
-               
+                    <?php
+                        $controller = new RoomController;
+                        $array = $controller->get_room_list();
+                        $count = 0;
+                        foreach($array as $room){
+                            $count = $count + 1;
+                            if($count%2>0){
+                                echo '<tr class="row-light">
+                                        <th class="column-1">'.$room->name.'</th>
+                                        <th class="column-2">'.$room->memberNum.'/4</th>
+                                        <th class="column-3">
+                                            <form method="post">
+                                                <input type="hidden" name="name" value="'.$room->name.'">
+                                                <input type="hidden" name="id" value="'.$room->id.'">
+                                                <input type="hidden" name="memberNum" value="'.$room->memberNum.'">
+                                                                        <button class="row-button" name="submit" type="submit">Join</button>
+                                            </form>
+                                        </th>
+                                    </tr>';
+                            }else{
+                                echo  '<tr class="row-black">
+                                            <th class="column-1">'.$room->name.'</th>
+                                            <th class="column-2">'.$room->memberNum.'/4</th>
+                                            <th class="column-3">
+                                                <form method="post">
+                                                    <input type="hidden" name="name" value="'.$room->name.'">
+                                                    <input type="hidden" name="id" value="'.$room->id.'">
+                                                    <input type="hidden" name="memberNum" value="'.$room->memberNum.'">
+                                                    <button class="row-button" name="submit" type="submit">Join</button>
+                                                </form>
+                                            </th>
+                                        </tr>';
+                            }                        
+                        }
+                    ?>
                 </table>
             </div>
         </div>
